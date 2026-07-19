@@ -1,0 +1,10 @@
+<div class="layout"><aside><div class="brand">G - 8008 <span>RP</span></div><nav>
+<a href="/dashboard">Dashboard</a>
+<div class="nav-title">MASTER DATA</div>
+<a href="/offices">Kantor</a><a href="/groups">Group / Brand</a><a href="/staff">Semua Staf</a><a href="/former-employees">Ex Karyawan</a><a href="/blacklists">Blacklist</a>
+<div class="nav-title">MASA AKTIF DOKUMEN</div>
+<a href="/documents/visa">Visa</a><a href="/documents/passport">Paspor</a><a href="/documents/wp">Work Permit (WP)</a><a href="/documents/contract">Kontrak</a>
+<div class="nav-title">MANAJEMEN</div>
+<a href="/leave/upcoming">Cuti Mendatang (ACC)</a><a href="/leave">Semua Cuti</a><a href="/notifications">Notifikasi <b><%= notificationCount %></b></a>
+<% if(user && user.role==='owner'){ %><div class="nav-title">SUPER ADMIN</div><a href="/admins">Kelola Admin</a><a href="/audit">Audit Log</a><% } else if(user && user.role==='admin'){ %><a href="/audit">Audit Log</a><% } %>
+</nav><form method="post" action="/logout"><button class="danger full">Logout</button></form></aside><main><header><div><h1><%= title %></h1><small><%= user.name %> • <%= user.login_id %> • <%= user.role %></small></div><a class="bell" href="/notifications">🔔 <%= notificationCount %></a></header><% if(flash){ %><div class="flash <%= flash.type %>"><%= flash.message %></div><% } %>
