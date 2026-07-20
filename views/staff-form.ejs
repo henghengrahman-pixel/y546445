@@ -1,0 +1,55 @@
+<%- include('partials/head',{title:staff?'Edit Staf':'Tambah Staf'}) %><%- include('partials/nav',{title:staff?'Edit Staf':'Tambah Staf'}) %>
+<form class="card" method="post" action="<%= staff?'/staff/'+staff.id:'/staff' %>">
+  <h2>Data Karyawan</h2>
+  <div class="form-grid">
+    <label>ID Staf<input name="staff_code" value="<%= staff?.staff_code||'' %>" <%= staff?'disabled':'' %> placeholder="Otomatis jika kosong"></label>
+    <label>Nama<input name="name" value="<%= staff?.name||'' %>" required></label>
+    <label>Jenis Kelamin<select name="gender" required><option value="MALE" <%= (staff?.gender||'MALE')==='MALE'?'selected':'' %>>Cowok</option><option value="FEMALE" <%= staff?.gender==='FEMALE'?'selected':'' %>>Cewek</option></select></label>
+    <label>Email Kerja Staf<input type="email" name="work_email" value="<%= staff?.work_email||'' %>" placeholder="nama@perusahaan.com"></label>
+    <label>Telegram<input name="telegram" value="<%= staff?.telegram||'' %>"></label>
+    <label>Kantor<select name="office_id"><option value="">- Pilih -</option><% offices.forEach(o=>{ %><option value="<%= o.id %>" <%= staff?.office_id==o.id?'selected':'' %>><%= o.name %></option><% }) %></select></label>
+    <label>Group / Brand<select name="group_id"><option value="">- Pilih -</option><% groups.forEach(g=>{ %><option value="<%= g.id %>" <%= staff?.group_id==g.id?'selected':'' %>><%= g.name %></option><% }) %></select></label>
+    <label>Tinggal di MES Mana<input name="shift" value="<%= staff?.shift||'' %>" placeholder="Contoh: MES A / K39 / Lantai 2"></label>
+    <label>Pegang / Tugas<input name="duty" value="<%= staff?.duty||'' %>" placeholder="Deposit, WD, LiveChat"></label>
+    <label>Jabatan<input name="position" value="<%= staff?.position||'' %>"></label>
+    <label>Tanggal Mulai Kerja<input type="date" name="start_date" value="<%= staff?.start_date||'' %>"></label>
+    <label>Kontrak Kerja (Opsional)<select name="contract_term"><option value="">Tanpa kontrak / kosong</option><option value="1_YEAR" <%= staff?.contract_term==='1_YEAR'?'selected':'' %>>1 Tahun</option><option value="1_6_YEAR" <%= staff?.contract_term==='1_6_YEAR'?'selected':'' %>>1,6 Tahun</option><option value="2_YEAR" <%= staff?.contract_term==='2_YEAR'?'selected':'' %>>2 Tahun</option><option value="2_5_YEAR" <%= staff?.contract_term==='2_5_YEAR'?'selected':'' %>>2,5 Tahun</option><option value="3_YEAR" <%= staff?.contract_term==='3_YEAR'?'selected':'' %>>3 Tahun</option><option value="CUSTOM" <%= staff?.contract_term==='CUSTOM'?'selected':'' %>>Tanggal bebas</option></select></label>
+    <label>Tanggal Kontrak Berakhir (Opsional)<input type="date" name="contract_end_date" value="<%= staff?.contract_end_date||'' %>"><small>Kosongkan bila memilih durasi otomatis.</small></label>
+  </div>
+  <label>Catatan<textarea name="notes"><%= staff?.notes||'' %></textarea></label>
+
+  <% if(!staff){ %>
+  <div class="doc-entry required-doc">
+    <h2>Paspor — Wajib</h2>
+    <p class="muted">Masa aktif paspor wajib diisi saat karyawan dibuat.</p>
+    <div class="form-grid">
+      <label>Nomor Paspor<input name="passport_number"></label>
+      <label>Tanggal Terbit<input type="date" name="passport_issued_date"></label>
+      <label>Masa Aktif Sampai<input type="date" name="passport_expiry_date" required></label>
+      <label>Keterangan<input name="passport_notes" placeholder="Opsional"></label>
+    </div>
+  </div>
+  <div class="doc-entry">
+    <h2>Visa — Opsional</h2>
+    <div class="form-grid">
+      <label>Nomor Visa<input name="visa_number"></label>
+      <label>Tanggal Terbit<input type="date" name="visa_issued_date"></label>
+      <label>Masa Aktif Sampai<input type="date" name="visa_expiry_date"></label>
+      <label>Keterangan<input name="visa_notes"></label>
+    </div>
+  </div>
+  <div class="doc-entry">
+    <h2>Work Permit (WP) — Opsional</h2>
+    <div class="form-grid">
+      <label>Nomor WP<input name="wp_number"></label>
+      <label>Tanggal Terbit<input type="date" name="wp_issued_date"></label>
+      <label>Masa Aktif Sampai<input type="date" name="wp_expiry_date"></label>
+      <label>Keterangan<input name="wp_notes"></label>
+    </div>
+  </div>
+  <% } else { %>
+    <div class="notice"><strong>Perpindahan Group Aman</strong><span>Jika karyawan dipindahkan ke group lain, seluruh data Paspor, Visa, WP, SP, dan cuti tetap mengikuti karyawan otomatis.</span></div>
+  <% } %>
+  <button class="primary"><%= staff?'Simpan Perubahan':'Tambah Karyawan' %></button>
+</form>
+<%- include('partials/foot') %>
