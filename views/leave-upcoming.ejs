@@ -1,8 +1,0 @@
-<%- include('partials/head',{title:'Cuti Mendatang'}) %><%- include('partials/nav',{title:'Jadwal Cuti CS Mendatang (Sudah ACC)'}) %>
-<form class="toolbar card filters-wide">
-  <select name="group"><option value="">Semua Group / Brand</option><% groups.forEach(g=>{ %><option value="<%= g.id %>" <%= group==g.id?'selected':'' %>><%= g.name %></option><% }) %></select>
-  <select name="gender"><option value="">Cowok & Cewek</option><option value="MALE" <%= gender==='MALE'?'selected':'' %>>CS Cowok</option><option value="FEMALE" <%= gender==='FEMALE'?'selected':'' %>>CS Cewek</option></select>
-  <button>Filter</button>
-</form>
-<section class="card"><p class="muted">Cuti yang tanggal selesainya sudah lewat otomatis tidak tampil lagi.</p><table><thead><tr><th>Staf</th><th>Group / Brand</th><th>Gender</th><th>Shift / Pegang</th><th>Jadwal Cuti</th><th>Kontrak Kerja Berikutnya</th><th>Pengganti</th><th>Disetujui</th></tr></thead><tbody><% items.forEach(x=>{ %><tr><td><a href="/staff/<%= x.staff_id %>"><strong><%= x.name %></strong></a><small><%= x.staff_code %></small></td><td><strong><%= x.group_name||'-' %></strong></td><td><span class="badge"><%= x.gender==='FEMALE'?'Cewek':'Cowok' %></span></td><td><%= x.shift||'-' %><small><%= x.duty||'-' %></small></td><td><b><%= fmtDate(x.start_date) %></b><small>sampai <%= fmtDate(x.end_date) %></small></td><td><%= fmtDate(x.next_contract_date) %></td><td><%= x.replacement_staff||'-' %></td><td><%= x.approved_by||'-' %></td></tr><% }) %><% if(!items.length){ %><tr><td colspan="8" class="empty">Belum ada jadwal cuti mendatang yang sudah di-ACC.</td></tr><% } %></tbody></table></section>
-<%- include('partials/foot') %>
